@@ -1,0 +1,153 @@
+﻿@model IEnumerable<inventarioFerreteriaElMartillo.Models.Producto>
+
+@{
+    ViewBag.Title = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #nav {
+        border-radius: 5px;
+    }
+
+    #navButton:hover {
+        background-color: darkgray;
+        border-radius: 5px;
+    }
+
+    #navButton {
+        border-radius: 5px;
+    }
+
+    #container {
+        width: 100%;
+        display: flex;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .item {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+</style>
+
+<nav class="navbar navbar-expand-lg bg-light" id="nav">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Ferreteria El Martillo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" id="navButton" aria-current="page" href="@Url.Action("Inicio","Mantenedor")">Inventario</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="navButton" aria-current="page" href="@Url.Action("Crear","Mantenedor")">Agregar Producto</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search" id="formBusqueda" onsubmit="filtrarPeliculas(event)">
+                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" id="inputBusqueda">
+                <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<article class="container-fluid mt-2" id="container">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h4>Inventario</h4>
+        </div>
+        <div class="card-body d-flex align-items-center justify-content-center " id="cardBody">
+           <table class="table table-bordered">
+               <thead class="table-dark">
+                   <tr>
+                       <th>Articulo</th>
+                       <th>Marca</th>
+                       <th style="width:35%;">Descripcion</th>
+                       <th>Stock</th>
+                       <th>Precio</th>
+                       <th>Imagen</th>
+                       <th style="width:12%;">Acciones</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   @foreach (var item in Model)
+                    {
+                       <tr class="item" id="item">
+                           <td class="nombre">@item.Articulo</td>
+                           <td class="marca">@item.Marca</td>
+                           <td>
+                               <div>
+                                   @if (item.Descripcion.Length > 60)
+                                   {
+                                       <p class="descripcion" id="descripcion" style="font-size:15px;">@item.Descripcion.Substring(0, Math.Min(item.Descripcion.Length, 60)) ...</p>
+                                       <button class="ver-mas btn btn-sm btn-success" onclick="toggleDescription(this)">Ver más</button>
+                                       <p class="descripcion-completa" style="display: none; font-size: 15px;">@item.Descripcion</p>
+                                       <button class="ver-menos btn btn-sm btn-secondary" onclick="toggleDescription(this)" style="display: none;">Ver menos</button>
+                                   }
+                                   else
+                                   {
+                                       <p class="descripcion" id="descripcion">@item.Descripcion</p>
+                                   }
+                               </div>
+                           </td>
+                           <td>@item.Stock unidades</td>
+                           <td>$ @item.Precio c/u</td>
+                           <td><a href="@item.Imagen">Link</a></td>
+                           <td>
+                               <a href="@Url.Action("Editar","Mantenedor", new {idProducto = item.IdProducto})" class="btn btn-success btn-sm">Editar</a>
+                               <a href="@Url.Action("Eliminar","Mantenedor", new {idProducto = item.IdProducto})" class="btn btn-danger btn-sm">Eliminar</a>
+                           </td>
+                       </tr>
+                    }
+               </tbody>
+           </table>
+        </div>
+    </div>
+</article>
+
+
+<script>
+//buscador
+    function filtrarPeliculas(event) {
+        event.preventDefault();
+
+        var inputBusqueda = document.getElementById('inputBusqueda').value.toLowerCase();
+        var peliculas = document.getElementsByClassName('item');
+
+        for (var i = 0; i < peliculas.length; i++) {
+            var titulo = peliculas[i].querySelector('.nombre').innerText.toLowerCase();
+            var genero = peliculas[i].querySelector('.marca').innerText.toLowerCase();
+
+            if (titulo.includes(inputBusqueda) || genero.includes(inputBusqueda)) {
+                peliculas[i].style.visibility = 'visible'; // Mostrar el elemento si coincide con la búsqueda
+            } else {
+                peliculas[i].style.visibility = 'collapse'; // Ocultar el elemento si no coincide con la búsqueda
+            }
+        }
+    }
+
+
+   //oculatar texto
+
+    function toggleDescription(button) {
+        var descripcion = button.parentNode.querySelector('.descripcion');
+        var descripcionCompleta = button.parentNode.querySelector('.descripcion-completa');
+        var verMasButton = button.parentNode.querySelector('.ver-mas');
+        var verMenosButton = button.parentNode.querySelector('.ver-menos');
+
+        descripcion.style.display = (descripcion.style.display === 'none') ? 'block' : 'none';
+        descripcionCompleta.style.display = (descripcionCompleta.style.display === 'none') ? 'block' : 'none';
+        verMasButton.style.display = (verMasButton.style.display === 'none') ? 'inline' : 'none';
+        verMenosButton.style.display = (verMenosButton.style.display === 'none') ? 'inline' : 'none';
+    }
+
+
+</script>

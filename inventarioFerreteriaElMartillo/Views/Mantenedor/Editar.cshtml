@@ -1,0 +1,98 @@
+﻿@model inventarioFerreteriaElMartillo.Models.Producto
+
+@{
+    ViewBag.Title = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    #nav {
+        border-radius: 5px;
+    }
+
+    #navButton:hover {
+        background-color: darkgray;
+        border-radius: 5px;
+    }
+
+    #navButton {
+        border-radius: 5px;
+    }
+
+    #container {
+        width: 100%;
+        display: flex;
+    }
+
+    .card {
+        width: 40%;
+    }
+</style>
+
+
+
+<nav class="navbar navbar-expand-lg bg-light" id="nav">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Ferreteria El Martillo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" id="navButton" aria-current="page" href="@Url.Action("Inicio","Mantenedor")">Inventario</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="navButton" aria-current="page" href="@Url.Action("Crear","Mantenedor")">Agregar Producto</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<article class="container-fluid mt-2" id="container">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h4>Editar Articulo</h4>
+        </div>
+        <div class="card-body d-flex align-items-center justify-content-center " id="cardBody">
+            <form action="@Url.Action("Editar","Mantenedor")" method="post">
+                <input hidden name="IdProducto" value="@Html.DisplayTextFor(m => m.IdProducto)" />
+                <div class="form-floating ">
+                    <input class="form-control" type="text" id="idArticulo" required name="Articulo" value="@Html.DisplayTextFor(m => m.Articulo)" />
+                    <label for="idArticulo">Nombre del articulo</label>
+                </div>
+                <div class="form-floating mt-1">
+                    <input class="form-control" type="text" id="idMarca" required name="Marca" value="@Html.DisplayTextFor(m => m.Marca)" />
+                    <label for="idMarca">Marca</label>
+                </div>
+                <div class="form-floating mt-1">
+                    <textarea class="form-control" required type="text" rows="5" id="idDescripcion" name="Descripcion" >@Html.DisplayTextFor(m => m.Descripcion)</textarea>
+                    <label for="idDescripcion">Descripcion</label>
+                </div>
+                <div class="form-floating mt-1">
+                    <input class="form-control" type="text" id="idDirector" required name="Stock"  value="@Html.DisplayTextFor(m => m.Stock)"/>
+                    <label for="idStock">Stock del articulo</label>
+                </div>
+                <div class="form-floating mt-1">
+                    <input class="form-control" type="text" id="idDirector" required name="Precio" value="@Html.DisplayTextFor(m => m.Precio)"/>
+                    <label for="idPrecio">Precio</label>
+                </div>
+                <div class="form-floating mt-1">
+                    <input class="form-control" type="text" id="idImagen" required name="Imagen" value="@Html.DisplayTextFor(m => m.Imagen)"/>
+                    <label for="idImagen">Imagen(url)</label>
+                </div>
+                <hr />
+                <button type="submit" class="btn btn-success">Agregar</button>
+            </form>
+        </div>
+    </div>
+</article>
+
+
+<script>
+
+
+</script>
+
